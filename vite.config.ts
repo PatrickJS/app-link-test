@@ -7,7 +7,6 @@ import { qwikVite } from "@builder.io/qwik/optimizer";
 import { qwikCity } from "@builder.io/qwik-city/vite";
 import { qwikTypes } from "@builder.io/qwik-labs/vite";
 import tsconfigPaths from "vite-tsconfig-paths";
-import { qwikSpeakInline } from "qwik-speak/inline";
 import { type UserConfig } from "vite";
 import pkg from "./package.json";
 
@@ -22,17 +21,7 @@ const { dependencies = {}, devDependencies = {} } = pkg as any as {
  */
 export default defineConfig(({ command, mode }): UserConfig => {
   return {
-    plugins: [
-      qwikCity(),
-      qwikVite(),
-      tsconfigPaths(),
-      qwikTypes(),
-      qwikSpeakInline({
-        supportedLangs: ["en-US", "it-IT"],
-        defaultLang: "en-US",
-        assetsPath: "i18n",
-      }),
-    ],
+    plugins: [qwikCity(), qwikVite(), tsconfigPaths(), qwikTypes()],
     // This tells Vite which dependencies to pre-build in dev mode.
     optimizeDeps: {
       // Put problematic deps that break bundling here, mostly those with binaries.

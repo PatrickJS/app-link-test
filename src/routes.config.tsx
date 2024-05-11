@@ -17,7 +17,7 @@ export const appUrl = untypedAppUrl as AppRouteParamsFunction;
  *
  * NOTE: you may consider changing `<a>` to `<Link>` to be globally applied across your application.
  */
-export function AppLink(props: AppLinkProps & QwikIntrinsicElements["a"]) {
+export function AppLink({ onClick$, ...props}: AppLinkProps & QwikIntrinsicElements["a"]) {
   return (
     <a
       href={(appUrl as (route: string, props: any, prefix: string) => string)(
@@ -25,6 +25,13 @@ export function AppLink(props: AppLinkProps & QwikIntrinsicElements["a"]) {
         props,
         "param:",
       )}
+      onClick$={[
+        sync$((evt: Event) => {
+          evt.preventDefault();
+          evt.stopPropagation();
+        }),
+        ...(Array.isArray ? onClick$ : [onClick$])
+      ]}
       {...omitProps(props, ["href"])}
     >
       {props.children}
